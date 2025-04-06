@@ -21,7 +21,8 @@ public class SubmarineController : MonoBehaviour
     public SubmarineStats stats;
     private Vector2 moveInput;
     private Rigidbody rb;
-
+    public Vector2 boundsSubmarineLight = new Vector2(80, -80); // Limites do submarino para a luz
+    public bool canDie = true;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,6 +33,7 @@ public class SubmarineController : MonoBehaviour
         if (submarineLight != null && stats != null)
         {
             submarineLight.range = stats.lightDistance;
+            submarineLight.intensity *= (stats.lightDistance); // Ajuste a intensidade com base na distância
         }
     }
 
@@ -102,20 +104,17 @@ public class SubmarineController : MonoBehaviour
     {
         if (submarineLightTransform == null) return;
 
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        Plane plane = new Plane(Vector3.forward, new Vector3(0, 0, submarineLightTransform.position.z));
 
-        if (plane.Raycast(ray, out float distance))
-        {
-            Vector3 point = ray.GetPoint(distance);
-            Vector3 direction = point - submarineLightTransform.position;
-
-            if (direction != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-                submarineLightTransform.rotation = Quaternion.Slerp(submarineLightTransform.rotation, targetRotation, lightRotationSpeed * Time.deltaTime);
-            }
+        Vector3 pos = Camera.main.WorldToScreenPoint(submarineLightTransform.position);
+        Vector3 angle = new Vector3(submarineLightTransform.rotation.x, 270, submarineLightTransform.rotation.z);
+        if (pos.x < Mouse.current.position.ReadValue().x) {
+            angle.y = 90;
         }
+
+        // Limita a rotação da luz dentro dos limites definidos
+        float inputPercentage = Mathf.Min(Mathf.Max(0, Mouse.current.position.ReadValue().y), Screen.height) / Screen.height;
+        angle.x = Mathf.Lerp(boundsSubmarineLight.x, boundsSubmarineLight.y, inputPercentage);
+        submarineLightTransform.rotation = Quaternion.Slerp(submarineLightTransform.rotation, Quaternion.Euler(angle), lightRotationSpeed * Time.deltaTime);
     }
 
     [SerializeField] private float extractSpeed = 10f;
@@ -200,7 +199,7 @@ public class SubmarineController : MonoBehaviour
 
     public void Die()
     {
-        if (isDead) return;
+        if (isDead || !canDie) return;
         isDead = true;
 
         // Para o movimento

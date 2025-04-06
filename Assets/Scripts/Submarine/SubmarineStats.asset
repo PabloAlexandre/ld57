@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73928bfb27d6158419d5cc089a1a80ab, type: 3}
   m_Name: SubmarineStats
   m_EditorClassIdentifier: 
-  speed: 1
-  maxDepth: -10
+  speed: 10
+  maxDepth: -230
   miningSpeed: 3
   miningDistance: 5
-  gold: 323
-  lightDistance: 10
+  gold: 100
+  lightDistance: 50
