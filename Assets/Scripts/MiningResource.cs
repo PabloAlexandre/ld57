@@ -38,7 +38,7 @@ public class MiningResource : MonoBehaviour
         // 🔊 Toca som no ponto antes de destruir
         if (destroySound != null)
         {
-            AudioSource.PlayClipAtPoint(destroySound, transform.position);
+            //AudioSource.PlayClipAtPoint(destroySound, transform.position);
         }
         // Encolhe
         t = 0f;
