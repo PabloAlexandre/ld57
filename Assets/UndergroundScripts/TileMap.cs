@@ -11,8 +11,8 @@ public class TileMap : MonoBehaviour {
 
     }
 
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, tileSize * transform.localScale.x);
-    }
+    //private void OnDrawGizmos() {
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireCube(transform.position, tileSize * transform.localScale.x);
+    //}
 }

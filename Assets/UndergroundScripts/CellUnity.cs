@@ -1,4 +1,5 @@
-using Unity.VisualScripting;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,7 +11,11 @@ public class CellUnity : MonoBehaviour {
     public bool isIntermediare = false;
     public bool[] walls;
     public CellUnity owner;
+    public SpawnType spawnType = SpawnType.NONE;
+    public CaveCell cell;
 
+    public Transform miningPrefab;
+    public Transform fishPrefab;
     void Start() {
 
     }
@@ -31,15 +36,25 @@ public class CellUnity : MonoBehaviour {
         //transform.Find("bg").GetComponent<Renderer>().material.color = Color.gray;
     }
 
-    public void Initialize(int x, int y, CellType type, bool isIntermediare = false) {
+    public void Initialize(int x, int y, CellType type, bool isIntermediare = false, CaveCell cell = null) {
         this.x = x;
         this.y = y;
         this.type = type;
         this.isIntermediare = isIntermediare;
-        if(type == CellType.STONE) {
+        this.cell = cell;
+
+        if (type == CellType.STONE) {
             transform.Find("Wall-Back").gameObject.SetActive(false);
         }
+
+        if (cell != null && cell.isEnd) {
+            transform.Find("Tunnel").gameObject.SetActive(true);
+        }
+
         this.ActivateWalls();
+        if (this.spawnType != SpawnType.NONE) {
+            this.Spawn();
+        }
     }
 
     void ActivateWalls() {
@@ -55,6 +70,38 @@ public class CellUnity : MonoBehaviour {
                 transform.Find(names[k]).gameObject.SetActive(true);
             }
         }
+    }
+
+    void Spawn() {
+        Transform prefab = this.miningPrefab;
+        Vector3[] spawnPoints = new Vector3[0];
+
+        if (this.spawnType == SpawnType.BLUE_ITEM) {
+            prefab = this.miningPrefab;
+            spawnPoints = getSpawnPoint("MiningSpawnPoints", 3);
+        } else if (this.spawnType == SpawnType.RED_ITEM) {
+            prefab = this.fishPrefab;
+            spawnPoints = getSpawnPoint("FishSpawnPoints", 1);
+        }
+
+        for (int i = 0; i < spawnPoints.Length; i++) {
+            Instantiate(prefab, spawnPoints[i], Quaternion.identity);
+        }
+    }
+
+    Vector3[] getSpawnPoint(string type, int count) {
+        var random = new System.Random();
+        Debug.Log(type);
+
+        return transform
+            .Find(type)
+            .GetComponentsInChildren<Transform>()
+            .OrderBy(_ => random.Next())
+            .Select(t => t.position)
+            .Take(count)
+            .ToArray();
+
+
     }
 
     private void OnDrawGizmosSelected() {

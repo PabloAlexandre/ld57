@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,27 +9,23 @@ public class CaveManager : MonoBehaviour {
     public GameObject cellObject;
     public int GridSize = 4;
     public int Interval = 1;
-    public MapCell[] mazeSolved;
+    public CaveCell[] mazeSolved;
     public CellUnity[][] nodes;
     public Vector3 cellSize = new Vector3(1, 1, 1);
+    public int minSteps = 5;
+    public int numberOfSpawnPoints = 5;
+    public int minHiddenSpots = 3;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
-        MazeManager mazeManager = new MazeManager(GridSize);
-        mazeManager.initMaze();
+        CaveGenerator cave = new CaveGenerator(GridSize, 1, new CaveConditions() {
+            minSteps = this.minSteps,
+            minHiddenSpots = this.minHiddenSpots,
+        });
 
-        List<MapCell> tmp = new List<MapCell>();
-        for (int i = 0; i < GridSize; i++) {
-            for (int j = 0; j < GridSize; j++) {
-                if(mazeManager.map[i][j].isPath) {
-                    tmp.Add(mazeManager.map[i][j]);
-                }
-            }
-        }
+        this.mazeSolved = cave.GenerateCaves();
+        Debug.Log($"Maze solved: {this.mazeSolved.Length}");
 
-        this.mazeSolved = tmp.ToArray();
-
-       ;
         nodes = new CellUnity[GridSize][];
         for (int i = 0; i < GridSize; i++) {
             nodes[i] = new CellUnity[GridSize];
@@ -44,9 +41,10 @@ public class CaveManager : MonoBehaviour {
                 //cell.transform.localRotation = Quaternion.identity;
 
                 CellUnity cellUnity = cell.GetComponent<CellUnity>();
-                cellUnity.walls = mazeManager.map[i][j].walls;
-                cellUnity.isPath = mazeManager.map[i][j].isPath;
-                cellUnity.Initialize(i, j, CellType.PATH);
+                cellUnity.walls = cave.baseMap[i][j].walls;
+                cellUnity.isPath = cave.baseMap[i][j].isPath;
+                cellUnity.spawnType = cave.baseMap[i][j].spawnType;
+                cellUnity.Initialize(i, j, CellType.PATH, false, cave.baseMap[i][j]);
                 nodes[i][j] = cellUnity;
 
                 for (int interval = 0; interval < Interval + 1; interval++) {
@@ -86,18 +84,44 @@ public class CaveManager : MonoBehaviour {
     }
 
     private void OnDrawGizmosSelected() {
-        if(this.mazeSolved == null) return;
+        if (this.mazeSolved == null) return;
         for (int i = 0; i < this.mazeSolved.Length - 1; i++) {
             int next = i + 1;
 
-            MapCell current = this.mazeSolved[i];
-            MapCell nextCell = this.mazeSolved[next];
+            CaveCell current = this.mazeSolved[i];
+            CaveCell nextCell = this.mazeSolved[next];
 
             Vector3 start = this.nodes[current.x][current.y].transform.position;
             Vector3 end = this.nodes[nextCell.x][nextCell.y].transform.position;
             float thickness = 3;
 
-            Handles.DrawBezier(start, end, start, end, Color.red, null, thickness);
+            Handles.DrawBezier(start, end, start, end, Color.green, null, thickness);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(start, 5.25f);
+        }
+
+
+        for(int x = 0; x < GridSize; x++) {
+            for (int y = 0; y < GridSize; y++) {
+                if (this.nodes[x][y].spawnType != SpawnType.NONE) {
+                    Vector3 center = this.nodes[x][y].transform.position;
+
+                    switch(this.nodes[x][y].spawnType) {
+                        case SpawnType.BLUE_ITEM:
+                            Gizmos.color = Color.blue;
+                            break;
+                        case SpawnType.RED_ITEM:
+                            Gizmos.color = Color.red;
+                            break;
+                        default:
+                            Gizmos.color = Color.yellow;
+                            break;
+                    }
+                    Gizmos.DrawSphere(center, 8.25f);
+
+                }
+            }
         }
     }
 }
