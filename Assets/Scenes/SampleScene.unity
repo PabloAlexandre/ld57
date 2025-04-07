@@ -815,7 +815,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 10
+  m_Radius: 20
   m_Center: {x: 0, y: 0.35, z: 0}
 --- !u!1 &410087039
 GameObject:
@@ -1455,6 +1455,14 @@ MonoBehaviour:
   maxScale: 1
   speed: 3
   scaleSpeedMultiplier: 0.3
+  minFog: 0.001
+  fogStep: 0.003
+  increaseEachCycle: 30
+  maxFog: 0.034
+  submarine: {fileID: 441314592}
+  minFilter: {r: 0.043137256, g: 0.5372549, b: 0.79607844, a: 1}
+  maxFilter: {r: 0.08235294, g: 0.28627452, b: 0.3882353, a: 1}
+  depthChange: 500
 --- !u!1 &1232733506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,7 +1620,6 @@ Transform:
   - {fileID: 5054436206623339620}
   - {fileID: 5054436205403160259}
   - {fileID: 5054436205487275103}
-  - {fileID: 5054436206915837680}
   - {fileID: 5054436207354621155}
   - {fileID: 5054436207275514214}
   m_Father: {fileID: 1930170736}
@@ -2691,7 +2698,7 @@ Transform:
   m_GameObject: {fileID: 5579720655437391589}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.5941811, z: -0, w: 0.80433124}
-  m_LocalPosition: {x: 19.1, y: -49.1, z: -7.871155}
+  m_LocalPosition: {x: 17.9, y: -26, z: -7.871155}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2737,21 +2744,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.5941811, z: -0, w: 0.80433124}
   m_LocalPosition: {x: 11.8, y: -39.6, z: -7.871155}
-  m_LocalScale: {x: 15, y: 15, z: 15}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 1260638557}
-  m_LocalEulerAnglesHint: {x: 0, y: -72.909, z: 0}
---- !u!4 &5054436206915837680
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5579720656148694090}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.5941811, z: -0, w: 0.80433124}
-  m_LocalPosition: {x: 26, y: -58, z: -7.871155}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2874,22 +2866,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054436205927782466}
-  m_Layer: 0
-  m_Name: points
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &5579720656148694090
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5054436206915837680}
   m_Layer: 0
   m_Name: points
   m_TagString: Untagged

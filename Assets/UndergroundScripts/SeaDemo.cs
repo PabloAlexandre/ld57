@@ -22,12 +22,29 @@ public class SeaDemo : MonoBehaviour {
     public float scaleSpeedMultiplier = 1.0f; // Optional multiplier to animate scale at a different rate
 
     private LensDistortion lensDistortion;
+    private ColorAdjustments colorAdjustments;
 
+    [Header("Fog Settings")]
+    public float minFog = 0.001f;
+    public float fogStep = 0.005f;
+    public float increaseEachCycle = 20;
+    public float maxFog = 0.023f;
+
+    public Transform submarine;
+
+    public Color minFilter = new Color(0, 94, 142);
+    public Color maxFilter = new Color(93, 178, 221);
+    public int depthChange = 100;
     void Start() {
         if (globalVolume == null) {
             Debug.LogError("Global Volume not assigned.");
             enabled = false;
             return;
+        }
+
+        if (globalVolume.profile.TryGet(out colorAdjustments)) {
+            colorAdjustments.colorFilter.value = Color.Lerp(minFilter, maxFilter, (-submarine.position.y / depthChange));
+            colorAdjustments.colorFilter.overrideState = true;
         }
 
         if (globalVolume.profile.TryGet(out lensDistortion)) {
@@ -36,6 +53,10 @@ public class SeaDemo : MonoBehaviour {
         } else {
             Debug.LogError("LensDistortion not found in Volume Profile.");
             enabled = false;
+        }
+
+        if(submarine) {
+            UpdateFog();
         }
     }
 
@@ -52,5 +73,21 @@ public class SeaDemo : MonoBehaviour {
 
         lensDistortion.center.value = new Vector2(centerX, centerY);
         lensDistortion.scale.value = scale;
+
+        UpdateFog();
+    }
+
+    void UpdateFog() {
+        int steps =  Mathf.CeilToInt(-submarine.position.y / increaseEachCycle);
+        float currentTargetFog = Mathf.Max(minFog, Mathf.Min(maxFog, minFog + (steps * fogStep)));
+
+        RenderSettings.fogDensity = Mathf.Lerp(RenderSettings.fogDensity, currentTargetFog, Time.deltaTime * 0.5f);
+        colorAdjustments.colorFilter.value = Color.Lerp(colorAdjustments.colorFilter.value, Color.Lerp(minFilter, maxFilter, (-submarine.position.y / depthChange)), 0.5f * Time.deltaTime);
+        colorAdjustments.colorFilter.overrideState = true;
+    }
+
+    Color HDRColor(Color c, float intensity) {
+        float factor = Mathf.Pow(2, intensity);
+        return new Color(c.r * factor, c.g * factor, c.b * factor);
     }
 }
