@@ -6,7 +6,7 @@ public class CollectResource : MonoBehaviour
     int x;
     int y;
     int level;
-    int index;
+    public int index;
 
     public void Init(int x, int y, int level, int index) {
         this.x = x;
@@ -20,7 +20,7 @@ public class CollectResource : MonoBehaviour
         string key = $"{x}_{y}_{level}_spawn_points";
         SpawnPoint point = JsonUtility.FromJson<SpawnPoint>(PlayerPrefs.GetString(key));
 
-        Vector3[] newCoords = point.coords.Where(c => c != point.coords[index]).ToArray();
+        Vector3[] newCoords = point.coords.Select(c => c == point.coords[index] ? Vector3.zero : c).ToArray();
         point.coords = newCoords;
         PlayerPrefs.SetString(key, JsonUtility.ToJson(point));
     }

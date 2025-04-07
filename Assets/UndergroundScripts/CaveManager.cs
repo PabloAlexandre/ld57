@@ -17,6 +17,11 @@ public class CaveManager : MonoBehaviour {
     public int minHiddenSpots = 3;
 
     public GameManager manager;
+    public bool debug = false;
+    public int numberOfFishs;
+    public float percentageOfSpawnsInPath;
+    public Vector2 startCell;
+    public Vector2 endCell;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
@@ -26,16 +31,40 @@ public class CaveManager : MonoBehaviour {
         //});
 
         //this.mazeSolved = cave.GenerateCaves();
+        LevelGame? currentLevel;
 
-        manager = GetComponent<GameManager>();
-        LevelGame? currentLevel = manager.LoadLevel(manager.currentLevel);
+        if (debug) {
+            CaveConditions conditions = new CaveConditions() {
+                minSteps = this.minSteps,
+                minHiddenSpots = this.minHiddenSpots,
+            };
+            CaveGenerator cave = new CaveGenerator(GridSize, 1, new CaveOptions() {
+                conditions = conditions,
+                numberOfFishs = numberOfFishs,
+                percentageOfSpawnsInPath = percentageOfSpawnsInPath,
+                startCell = startCell,
+                endCell = endCell,
+            });
 
-        if(currentLevel == null) {
-            Debug.LogError($"Level {manager.currentLevel} not found");
-            return;
+            this.mazeSolved = cave.GenerateCaves();
+
+            currentLevel = new LevelGame {
+                level = -1,
+                cells = cave.baseMap,
+                solvedPath = this.mazeSolved,
+            };
+        } else {
+            manager = GetComponent<GameManager>();
+            currentLevel = manager.LoadLevel(manager.currentLevel);
+
+            if (currentLevel == null) {
+                Debug.LogError($"Level {manager.currentLevel} not found");
+                return;
+            }
         }
 
-        CaveCell[][] map = currentLevel.Value.cells;
+
+         CaveCell[][] map = currentLevel.Value.cells;
         this.mazeSolved = currentLevel.Value.solvedPath;
         Debug.Log($"Maze solved: {this.mazeSolved.Length}");
 

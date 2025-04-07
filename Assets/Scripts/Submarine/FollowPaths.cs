@@ -20,6 +20,7 @@ public class FollowPaths : MonoBehaviour {
     public int levelIndex = 0;
 
     void Init() {
+        submarineController = FindFirstObjectByType<SubmarineController>();
         if (pathPoints.Length == 0) {
             Debug.LogWarning("No path points set!");
             enabled = false;

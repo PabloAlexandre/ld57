@@ -120,6 +120,9 @@ public class CellUnity : MonoBehaviour {
 
         
         for (int i = 0; i < spawnPoints.Length; i++) {
+            if(spawnPoints[i] == Vector3.zero) {
+                continue;
+            }
             Transform t = Instantiate(prefab, spawnPoints[i], Quaternion.identity);
             t.AddComponent<CollectResource>().Init(this.cell.x, this.cell.y, manager.currentLevel, i);
         }

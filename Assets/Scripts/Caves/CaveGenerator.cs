@@ -6,17 +6,17 @@ using UnityEngine;
 public class CaveGenerator {
     int gridSize;
     int spawnThreeshold;
-    CaveConditions conditions;
+    CaveOptions options;
 
     public CaveCell[][] baseMap;
     private CaveCell currentCell;
     private Stack<CaveCell> cellStack = new Stack<CaveCell>();
     public bool solved;
 
-    public CaveGenerator(int gridSize, int spawnThreeshold = 1, CaveConditions conditions = new CaveConditions()) {
+    public CaveGenerator(int gridSize, int spawnThreeshold = 1, CaveOptions opts = new CaveOptions()) {
         this.gridSize = gridSize;
         this.spawnThreeshold = spawnThreeshold;
-        this.conditions = conditions;
+        this.options = opts;
 
         baseMap = new CaveCell[gridSize][];
         for (int x = 0; x < gridSize; x++) {
@@ -72,8 +72,8 @@ public class CaveGenerator {
         if(this.solved) {
 
             bool hasConditions = new bool[] {
-                this.conditions.minSteps.HasValue ? path.Length >= this.conditions.minSteps.Value : true,
-                this.conditions.minHiddenSpots.HasValue ? (gridSize * gridSize) - path.Length >= this.conditions.minHiddenSpots.Value : true,
+                this.options.conditions.Value.minSteps.HasValue ? path.Length >= this.options.conditions.Value.minSteps.Value : true,
+                this.options.conditions.Value.minHiddenSpots.HasValue ? (gridSize * gridSize) - path.Length >= this.options.conditions.Value.minHiddenSpots.Value : true,
             }.All(it => it == true);
 
 
@@ -105,8 +105,9 @@ public class CaveGenerator {
         // shuffle points
         relevantPoints = this.randomizeArray(relevantPoints);
 
+        Debug.Log($"Relevant points: {relevantPoints.Length} - percentage : {Mathf.FloorToInt(this.options.percentageOfSpawnsInPath * relevantPoints.Length)}");
         // add spawn points
-        int spawnItems = Mathf.Max(4, UnityEngine.Random.Range(mainPoints.Length / 4, mainPoints.Length / 2));
+        int spawnItems = Mathf.FloorToInt(this.options.percentageOfSpawnsInPath * relevantPoints.Length);
         for (int i = 0; i < spawnItems; i++) {
             if(i >= relevantPoints.Length) break;
             // find mainPoints index of this point
@@ -126,7 +127,7 @@ public class CaveGenerator {
             }
         }
 
-        int hiddenItems = 3;
+        int hiddenItems = this.options.numberOfFishs;
         List<CaveCell> selectedHidden = CaveUtils.PickRandomWithDistance(hiddenPoints, hiddenItems, 3);
 
         foreach(CaveCell cell in selectedHidden) {
@@ -147,8 +148,11 @@ public class CaveGenerator {
     }
 
     CaveCell[] SolveMaze() {
-        CaveCell start = baseMap[0][0];
-        CaveCell end = baseMap[UnityEngine.Random.Range(0, gridSize)][gridSize - 1];
+        Vector2 startIndex = this.options.startCell.GetValueOrDefault(Vector2.zero);
+        Vector2 endIndex = this.options.endCell.GetValueOrDefault(new Vector2(UnityEngine.Random.Range(0, gridSize), this.gridSize - 1));
+
+        CaveCell start = baseMap[(int)startIndex.x][(int)startIndex.y];
+        CaveCell end = baseMap[(int) endIndex.x][(int) endIndex.y];
 
         start.isStart = true;
         end.isEnd = true;
@@ -220,4 +224,12 @@ public class CaveGenerator {
 public struct CaveConditions {
     public int? minSteps;
     public int? minHiddenSpots;
+}
+
+public struct CaveOptions {
+    public CaveConditions? conditions;
+    public int numberOfFishs;
+    public float percentageOfSpawnsInPath;
+    public Vector2? startCell;
+    public Vector2? endCell;
 }

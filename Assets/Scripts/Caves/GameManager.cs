@@ -8,6 +8,8 @@ public class GameManager: MonoBehaviour {
     public bool deleteOnStart = false;
     public bool isScene = false;
     public int currentLevel = 0;
+    public int numberOfFishs;
+    public float percentageOfSpawnsInPath;
 
     void Awake() {
         if (deleteOnStart) {
@@ -17,9 +19,13 @@ public class GameManager: MonoBehaviour {
         if(isScene) {
             this.currentLevel = PlayerPrefs.GetInt("desired_level", 0);
         }
-        
-        for(int i = 0; i < levels; i++) {
-            if(PlayerPrefs.GetInt($"{cacheKey}_level_{i}") == 1) {
+    }
+
+    public void CreateGame() {
+        PlayerPrefs.DeleteAll();
+
+        for (int i = 0; i < levels; i++) {
+            if (PlayerPrefs.GetInt($"{cacheKey}_level_{i}") == 1) {
                 continue;
             }
 
@@ -65,9 +71,15 @@ public class GameManager: MonoBehaviour {
             return;
         }
 
-        CaveGenerator cave = new CaveGenerator(4, 1, new CaveConditions() {
+        CaveConditions conditions = new CaveConditions() {
             minSteps = 9,
             minHiddenSpots = 3,
+        };
+
+        CaveGenerator cave = new CaveGenerator(4, 1, new CaveOptions() {
+            conditions = conditions,
+            numberOfFishs = numberOfFishs,
+            percentageOfSpawnsInPath = percentageOfSpawnsInPath,
         });
 
         var mazeSolved = cave.GenerateCaves();

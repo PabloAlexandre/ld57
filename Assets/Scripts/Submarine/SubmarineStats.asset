@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SubmarineStats
   m_EditorClassIdentifier: 
   speed: 6.999998
-  maxDepth: 80
+  maxDepth: -80
   miningSpeed: 3
   miningDistance: 2
-  gold: 139
+  gold: 64
   lightDistance: 70
