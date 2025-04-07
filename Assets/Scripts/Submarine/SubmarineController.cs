@@ -297,6 +297,10 @@ public class SubmarineController : MonoBehaviour
         }
 
         transform.localScale = targetScale;
+        yield return new WaitForSeconds(0.3f);
+        FindAnyObjectByType<SubmarineHUD>().PlayFadeOut();
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("OceanScene");
 
         // Aqui você pode:
         // Destroy(gameObject);

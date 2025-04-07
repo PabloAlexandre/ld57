@@ -2649,6 +2649,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3654447323348187667, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: canDie
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3922488676513255478, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_Name
       value: PlayerSubmarine

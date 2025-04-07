@@ -81,10 +81,10 @@ public class DepthWarningHandler : MonoBehaviour
     private void TriggerDeath()
     {
         //warningActive = false;
-        ResetFlash();
+        //ResetFlash();
 
-        if (warningCoroutine != null)
-            StopCoroutine(warningCoroutine);
+        //if (warningCoroutine != null)
+        //    StopCoroutine(warningCoroutine);
 
         //if (screenFlash != null) {
         //    Color c = screenFlash.color;
