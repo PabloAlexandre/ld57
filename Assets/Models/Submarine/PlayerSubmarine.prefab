@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4005379056419975112}
   - component: {fileID: 9163666379579464861}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 7784038335984025123}
   - component: {fileID: 6534134991587948836}
   - component: {fileID: 1151096554688518989}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BubbleParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4931,7 +4931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4290334828722701878}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4971,7 +4971,7 @@ GameObject:
   - component: {fileID: 7747154650418817151}
   - component: {fileID: 4015629915662457538}
   - component: {fileID: 30772454636878400}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -5123,7 +5123,7 @@ GameObject:
   - component: {fileID: 454498064026151739}
   - component: {fileID: 5291141578990630796}
   - component: {fileID: 8334164042001462071}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SubmarineInternalLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5244,7 +5244,7 @@ GameObject:
   - component: {fileID: 5678942740458154520}
   - component: {fileID: 1416313115604019955}
   - component: {fileID: 7022077118275420595}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GoldText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5381,7 +5381,7 @@ GameObject:
   - component: {fileID: 7758901683224866654}
   - component: {fileID: 6877762854985327658}
   - component: {fileID: 7986743258161129654}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CanvasUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5480,7 +5480,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2442514121322548018}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerSubmarine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5519,7 +5519,7 @@ GameObject:
   - component: {fileID: 4692888810873193404}
   - component: {fileID: 1777981763207368779}
   - component: {fileID: 1700033025198278442}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CanvasWS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5632,7 +5632,7 @@ GameObject:
   - component: {fileID: 2656434752749933487}
   - component: {fileID: 7298225852916270487}
   - component: {fileID: 1538555775862751676}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5707,7 +5707,7 @@ GameObject:
   - component: {fileID: 3804478043323071406}
   - component: {fileID: 4373057560533101523}
   - component: {fileID: 1948145115057027643}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Submarine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5757,7 +5757,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 254
+  m_RenderingLayerMask: 252
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 14f2daedf1e7f0c4b83b2723e7b4f8ab, type: 2}
@@ -5792,7 +5792,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8104443127357402872}
   - component: {fileID: 8497830463245256645}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HUDManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5847,7 +5847,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5842882518781215969}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Submarine_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5883,7 +5883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6645289506843827119}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DrilRotPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5917,7 +5917,7 @@ GameObject:
   - component: {fileID: 3004080216317321467}
   - component: {fileID: 1744958765935012481}
   - component: {fileID: 5976169375136685740}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: SubmarineLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6002,7 +6002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1362534222369170940}
   - component: {fileID: 4246890641352031671}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Audio Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6132,7 +6132,7 @@ GameObject:
   - component: {fileID: 1598663976499405834}
   - component: {fileID: 8838322842119664018}
   - component: {fileID: 7887282519285262420}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: SubmarineGlass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6182,7 +6182,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 254
+  m_RenderingLayerMask: 252
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 1be9c4ae356a74645acf3cc599517cc9, type: 2}
@@ -6218,7 +6218,7 @@ GameObject:
   - component: {fileID: 6239431541302912536}
   - component: {fileID: 8042870676282093959}
   - component: {fileID: 219380803171866994}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6296,7 +6296,7 @@ GameObject:
   - component: {fileID: 8445453367774483727}
   - component: {fileID: 6941090866087956649}
   - component: {fileID: 3655103303793408529}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: SubmarineDrill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6346,7 +6346,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 254
+  m_RenderingLayerMask: 252
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 14f2daedf1e7f0c4b83b2723e7b4f8ab, type: 2}
@@ -6382,7 +6382,7 @@ GameObject:
   - component: {fileID: 8413010208273452525}
   - component: {fileID: 3560629516125334134}
   - component: {fileID: 8212216348858825780}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6457,7 +6457,7 @@ GameObject:
   - component: {fileID: 1022364870575729857}
   - component: {fileID: 4163524109523216173}
   - component: {fileID: 5081149053265253649}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6532,7 +6532,7 @@ GameObject:
   - component: {fileID: 7435530470947690782}
   - component: {fileID: 8999248358203954892}
   - component: {fileID: 4713589936212238024}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DephtText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6674,6 +6674,10 @@ PrefabInstance:
       value: Submarine
       objectReference: {fileID: 0}
     - target: {fileID: 1082873740554955262, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082873740554955262, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -6695,23 +6699,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1426763116159607585, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5142829
+      value: 0.5609754
       objectReference: {fileID: 0}
     - target: {fileID: 1426763116159607585, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.5142829
+      value: 0.5609754
       objectReference: {fileID: 0}
     - target: {fileID: 1426763116159607585, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.485297
+      value: 0.43047258
       objectReference: {fileID: 0}
     - target: {fileID: 1426763116159607585, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.485297
+      value: 0.43047258
       objectReference: {fileID: 0}
     - target: {fileID: 1426763116159607585, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 3.322
+      value: 14.997
       objectReference: {fileID: 0}
     - target: {fileID: 1426763116159607585, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -6778,8 +6782,16 @@ PrefabInstance:
       value: 136.72528
       objectReference: {fileID: 0}
     - target: {fileID: 1839698179554850576, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 1839698179554850576, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_RenderingLayerMask
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947240077315439556, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2022675316284612579, guid: 682b36db39f5802498cb5be751ed6b01, type: 3}
       propertyPath: m_ActionEvents.Array.size
