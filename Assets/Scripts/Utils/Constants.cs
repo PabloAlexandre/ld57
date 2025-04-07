@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Constants {
     public static string CACHE_KEY = "demo-game";
+    public static float Y_OFFSET = 90f;
     public static int[][] WALL_DIRECTIONS = new int[][] {
         new int[] { 0, -1 }, // up
         new int[] { 1, 0 }, // right

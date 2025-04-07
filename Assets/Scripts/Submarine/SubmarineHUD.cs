@@ -105,7 +105,7 @@ public class SubmarineHUD : MonoBehaviour
     {
         if (submarineTransform != null && stats != null)
         {
-            float currentDepth = submarineTransform.position.y;
+            float currentDepth = (submarineTransform.position.y/5) - Constants.Y_OFFSET;
             float maxDepth = stats.maxDepth;
 
             depthText.text = $"Depth: {currentDepth:0.0} / {maxDepth}m";

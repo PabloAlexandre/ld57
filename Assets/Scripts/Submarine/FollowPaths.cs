@@ -85,6 +85,10 @@ public class FollowPaths : MonoBehaviour {
         if (other.CompareTag("Player")) {
             Init();
             canRun = true;
+            Timeout(() => {
+                SceneManager.LoadScene(sceneName);
+                Debug.Log("Loading scene: " + sceneName);
+            }, 5f);
         }
     }
 }

@@ -18,7 +18,7 @@ public class DepthWarningHandler : MonoBehaviour
 
     private void Update()
     {
-        float y = transform.position.y;
+        float y = (transform.position.y / 5) - Constants.Y_OFFSET;
         float limit = stats.maxDepth;
 
         float verticalSpeed = GetComponent<Rigidbody>()?.linearVelocity.y ?? 0f;
