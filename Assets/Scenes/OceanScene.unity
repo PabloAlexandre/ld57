@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.8773585, g: 0.7821711, b: 0.75734246, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.004
@@ -142,7 +142,9 @@ MonoBehaviour:
   - {fileID: 705551170}
   speed: 0.4
   reachThreshold: 5
+  disableCamera: 1
   sceneName: SampleScene
+  levelIndex: 0
 --- !u!1001 &376382070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237,7 +239,7 @@ Transform:
   m_GameObject: {fileID: 705551169}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.480011, y: 0.44091845, z: -4.130001}
+  m_LocalPosition: {x: -0.480011, y: -0, z: -8.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -432,9 +434,37 @@ PrefabInstance:
       propertyPath: m_RenderPostProcessing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4713589936212238024, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_TextWrappingMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6119191559870625129, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_ClearFlags
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 693.5717
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -361.2859
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 48.100006
       objectReference: {fileID: 0}
     - target: {fileID: 8413010208273452525, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -508,6 +538,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1411022123}
   - component: {fileID: 1411022122}
+  - component: {fileID: 1411022124}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -528,22 +559,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalVolume: {fileID: 1089771107}
-  minX: 0.45
-  maxX: 0.55
-  minY: 0.45
-  maxY: 0.55
+  minX: 0.4
+  maxX: 0.6
+  minY: 0.4
+  maxY: 0.6
   minScale: 1
   maxScale: 1
   speed: 3
-  scaleSpeedMultiplier: 1
+  scaleSpeedMultiplier: 0.3
   minFog: 0.001
-  fogStep: 0.005
-  increaseEachCycle: 20
-  maxFog: 0.023
-  submarine: {fileID: 0}
-  minFilter: {r: 0, g: 94, b: 142, a: 1}
-  maxFilter: {r: 93, g: 178, b: 221, a: 1}
-  depthChange: 100
+  fogStep: 0.003
+  increaseEachCycle: 30
+  maxFog: 0.034
+  submarine: {fileID: 1478488596}
+  minFilter: {r: 0.043137256, g: 0.5372549, b: 0.79607844, a: 1}
+  maxFilter: {r: 0.08235294, g: 0.28627452, b: 0.3882353, a: 1}
+  depthChange: 500
 --- !u!4 &1411022123
 Transform:
   m_ObjectHideFlags: 0
@@ -559,6 +590,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1411022124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411022121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23674ed93ea61a14c9180213f757aebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  submarine: {fileID: 0}
+  levels: 5
+  cacheKey: storage
 --- !u!1001 &1436759249
 PrefabInstance:
   m_ObjectHideFlags: 0

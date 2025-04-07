@@ -16,14 +16,28 @@ public class CaveManager : MonoBehaviour {
     public int numberOfSpawnPoints = 5;
     public int minHiddenSpots = 3;
 
+    public GameManager manager;
+    public int level = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
-        CaveGenerator cave = new CaveGenerator(GridSize, 1, new CaveConditions() {
-            minSteps = this.minSteps,
-            minHiddenSpots = this.minHiddenSpots,
-        });
+        //CaveGenerator cave = new CaveGenerator(GridSize, 1, new CaveConditions() {
+        //    minSteps = this.minSteps,
+        //    minHiddenSpots = this.minHiddenSpots,
+        //});
 
-        this.mazeSolved = cave.GenerateCaves();
+        //this.mazeSolved = cave.GenerateCaves();
+
+        manager = GetComponent<GameManager>();
+        LevelGame? currentLevel = manager.LoadLevel(level);
+
+        if(currentLevel == null) {
+            Debug.LogError($"Level {level} not found");
+            return;
+        }
+
+        CaveCell[][] map = currentLevel.Value.cells;
+        this.mazeSolved = currentLevel.Value.solvedPath;
         Debug.Log($"Maze solved: {this.mazeSolved.Length}");
 
         nodes = new CellUnity[GridSize][];
@@ -41,10 +55,10 @@ public class CaveManager : MonoBehaviour {
                 //cell.transform.localRotation = Quaternion.identity;
 
                 CellUnity cellUnity = cell.GetComponent<CellUnity>();
-                cellUnity.walls = cave.baseMap[i][j].walls;
-                cellUnity.isPath = cave.baseMap[i][j].isPath;
-                cellUnity.spawnType = cave.baseMap[i][j].spawnType;
-                cellUnity.Initialize(i, j, CellType.PATH, false, cave.baseMap[i][j]);
+                cellUnity.walls = map[i][j].walls;
+                cellUnity.isPath = map[i][j].isPath;
+                cellUnity.spawnType = map[i][j].spawnType;
+                cellUnity.Initialize(i, j, CellType.PATH, false, map[i][j]);
                 nodes[i][j] = cellUnity;
 
                 for (int interval = 0; interval < Interval + 1; interval++) {
@@ -84,7 +98,7 @@ public class CaveManager : MonoBehaviour {
     }
 
     private void OnDrawGizmosSelected() {
-        if (this.mazeSolved == null) return;
+        if (this.mazeSolved == null || this.nodes == null) return;
         for (int i = 0; i < this.mazeSolved.Length - 1; i++) {
             int next = i + 1;
 
@@ -100,6 +114,7 @@ public class CaveManager : MonoBehaviour {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(start, 5.25f);
         }
+
 
 
         for(int x = 0; x < GridSize; x++) {

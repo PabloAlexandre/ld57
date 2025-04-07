@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
+using System;
 
 public class SubmarineHUD : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class SubmarineHUD : MonoBehaviour
     [Header("UI Elements")]
     public TMP_Text goldText;
     public TMP_Text depthText;
+
+    public Image fadeImage;
 
     [Header("Flash & Pop")]
     public Color flashColor = Color.yellow;
@@ -28,6 +32,10 @@ public class SubmarineHUD : MonoBehaviour
     private float lastGoldAmount;
     private Color originalGoldColor;
     private Vector3 originalScale;
+    private float time;
+    private int target = 0;
+    private float fadeOutSpeed = 0.8f;
+    private Action onFadeEnd;
 
     private void Start()
     {
@@ -43,15 +51,43 @@ public class SubmarineHUD : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
         }
+        
+        if(fadeImage != null) {
+            Color color = fadeImage.color;
+            color.a = 1;
+            fadeImage.color = color;
+        }
+
+
 
         lastGoldAmount = stats.gold;
     }
+
 
     private void Update()
     {
         UpdateGold();
         UpdateDepth();
+
+
+        if (fadeImage != null && fadeImage.color.a >= 0 && fadeImage.color.a <= 1) {
+            time += Time.deltaTime;
+            if ((time < 1.0f && target != 1) || (target == 1 && time < 0.7f)) return;
+            Color color = fadeImage.color;
+            color.a = Mathf.Lerp(color.a, target, fadeOutSpeed * Time.deltaTime);
+            fadeImage.color = color;
+        }
     }
+
+    public void PlayFadeOut() {
+        target = 1;
+        time = 0;
+        fadeOutSpeed = 5;
+        Color color = fadeImage.color;
+        color.a = 0;
+        fadeImage.color = color;
+    }
+
 
     void UpdateGold()
     {

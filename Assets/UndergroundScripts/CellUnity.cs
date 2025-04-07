@@ -95,7 +95,6 @@ public class CellUnity : MonoBehaviour {
 
     Vector3[] getSpawnPoint(string type, int count) {
         var random = new System.Random();
-        Debug.Log(type);
 
         return transform
             .Find(type)

@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 
+[Serializable]
 public class CaveCell {
     public int x, y;
     public bool visited = false;
@@ -58,6 +59,7 @@ public struct CaveCellNeighbor {
     public int wall;
 }
 
+[Serializable]
 public enum SpawnType {
     NONE,
     BLUE_ITEM,

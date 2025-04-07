@@ -30,6 +30,8 @@ public class UpgradeManager : MonoBehaviour
     public float lightDistanceUpgradeAmount = 5f;
     public float maxDepthUpgradeAmount = -10f; // mais negativo = mais profundo
 
+    public string sceneName;
+
     private void Start()
     {
         UpdateUI();
@@ -104,6 +106,6 @@ public class UpgradeManager : MonoBehaviour
 
     public void ReturnToGameScene()
     {
-        SceneManager.LoadScene("IgorTest");
+        SceneManager.LoadScene(sceneName != null  ? sceneName : "SampleScene");
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
 
 public class FollowPaths : MonoBehaviour {
     public SubmarineController submarineController;
@@ -14,7 +15,9 @@ public class FollowPaths : MonoBehaviour {
 
     private Vector2 previousPosition;
     private bool canRun;
+    public bool disableCamera = true;
     public string sceneName;
+    public int levelIndex = 0;
 
     void Init() {
         if (pathPoints.Length == 0) {
@@ -26,7 +29,7 @@ public class FollowPaths : MonoBehaviour {
         previousPosition = new Vector2(submarineController.transform.position.x, submarineController.transform.position.y);
 
         submarineController.isAnimation = true;
-        Camera.main.GetComponent<SmoothFollow>().enabled = false;
+        Camera.main.GetComponent<SmoothFollow>().enabled = !disableCamera;
         currentIndex = 0;
     }
 
@@ -35,9 +38,15 @@ public class FollowPaths : MonoBehaviour {
 
         if (currentIndex >= pathPoints.Length) {
             submarineController.moveInput = Vector2.zero;
-            Destroy(this);
             submarineController.submarineLight.gameObject.SetActive(false);
-            SceneManager.LoadScene(sceneName);
+            //SceneManager.LoadScene(sceneName);
+            FindFirstObjectByType<SubmarineHUD>().PlayFadeOut();
+            FindAnyObjectByType<GameManager>().ResetPlayer();
+
+            Timeout(() => {
+                SceneManager.LoadScene(sceneName);
+                Debug.Log("Loading scene: " + sceneName);
+            }, 1.5f);
             return;
         }
 
@@ -60,6 +69,13 @@ public class FollowPaths : MonoBehaviour {
         }
     }
 
+    void Timeout(Action callback, float time) {
+        StartCoroutine(TimeoutCoroutine(callback, time));
+    }
+    IEnumerator TimeoutCoroutine(Action callback, float time) {
+        yield return new WaitForSeconds(time);
+        callback();
+    }
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {

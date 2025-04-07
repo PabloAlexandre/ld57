@@ -36,7 +36,7 @@ public class SubmarineController : MonoBehaviour
 
     private void Start()
     {
-        if(SceneManager.GetActiveScene().name == "SampleScene") {
+        if(SceneManager.GetActiveScene().name == "SampleScene" && !FindFirstObjectByType<GameManager>().IsBackFromUpgrade()) {
             animName = "StartAnimation";
             StartCoroutine(StartAnimation());
             isAnimation = true;
@@ -108,7 +108,6 @@ public class SubmarineController : MonoBehaviour
         }
 
         bool isMoving = moveInput.magnitude > 0.1f;
-        Debug.Log($"isMoving: {isMoving}");
         var emission = bubbleEffect.emission;
         emission.enabled = isMoving;
     }
@@ -165,8 +164,8 @@ public class SubmarineController : MonoBehaviour
         submarineLightTransform.rotation = Quaternion.Slerp(submarineLightTransform.rotation, Quaternion.Euler(angle), lightRotationSpeed * Time.deltaTime);
     }
 
-    [SerializeField] private float extractSpeed = 10f;
-    [SerializeField] private float extractDuration = 0.5f;
+    private float extractSpeed = 10f;
+    private float extractDuration = 1.5f;
     [SerializeField] private string upgradeSceneName = "UpgradeScene";
 
     private bool isBeingExtracted = false;
@@ -175,6 +174,8 @@ public class SubmarineController : MonoBehaviour
     {
         if (context.performed && !isBeingExtracted)
         {
+            FindFirstObjectByType<GameManager>().SavePosition();
+            FindAnyObjectByType<SubmarineHUD>().PlayFadeOut();
             StartCoroutine(ExtractAndLoadUpgradeScene());
         }
     }
@@ -228,7 +229,7 @@ public class SubmarineController : MonoBehaviour
 
         while (extractTimer < extractDuration)
         {
-            float percent = extractTimer / extractDuration;
+            float percent = extractTimer / (extractDuration - 1f);
             currentSpeed = Mathf.Lerp(0f, maxSpeed, percent);
             transform.position += Vector3.up * currentSpeed * Time.deltaTime;
 
@@ -237,6 +238,7 @@ public class SubmarineController : MonoBehaviour
             extractTimer += Time.deltaTime;
             yield return null;
         }
+
 
         SceneManager.LoadScene(upgradeSceneName);
     }
