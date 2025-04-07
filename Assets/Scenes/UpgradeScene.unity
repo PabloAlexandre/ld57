@@ -2041,11 +2041,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0ff0bad32dc6e4eb5ce3bebeb08d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveScale: 0.5
+  waveScale: 0.1
   waveSpeed: 1
   waveTile: 1
   waveStrength: 1
-  baseHeight: 0
+  baseHeight: 0.2
   verticalOffset: 0
   applyTilt: 1
   tiltAmount: 2
@@ -3721,7 +3721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 748e6f200ed67f24c816f537fe270b40, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.46
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 748e6f200ed67f24c816f537fe270b40, type: 3}
       propertyPath: m_LocalPosition.z
