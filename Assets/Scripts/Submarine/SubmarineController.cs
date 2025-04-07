@@ -19,10 +19,16 @@ public class SubmarineController : MonoBehaviour
     public Light submarineLight; // referência à SpotLight
 
     public SubmarineStats stats;
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     private Rigidbody rb;
     public Vector2 boundsSubmarineLight = new Vector2(80, -80); // Limites do submarino para a luz
     public bool canDie = true;
+    public bool isAnimation = false;
+
+    public ParticleSystem bubbleEffect;
+    public string animName;
+    private float time;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -30,6 +36,13 @@ public class SubmarineController : MonoBehaviour
 
     private void Start()
     {
+        if(SceneManager.GetActiveScene().name == "SampleScene") {
+            animName = "StartAnimation";
+            StartCoroutine(StartAnimation());
+            isAnimation = true;
+        }
+       
+
         if (submarineLight != null && stats != null)
         {
             submarineLight.range = stats.lightDistance;
@@ -38,8 +51,26 @@ public class SubmarineController : MonoBehaviour
     }
 
 
+    IEnumerator StartAnimation() {
+        submarineLight.gameObject.SetActive(false);
+
+        for(int i = 0; i < 4; i++) {
+            submarineLight.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.1f);
+            submarineLight.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        submarineLight.gameObject.SetActive(true);
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
+        if(isAnimation) {
+            moveInput = Vector2.zero; // Para o movimento durante a animação
+            return;
+        }
+
         moveInput = context.ReadValue<Vector2>();
 
         // Define a rotação alvo com base na direção X
@@ -56,6 +87,17 @@ public class SubmarineController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(animName == "StartAnimation" && isAnimation) {
+            moveInput = new Vector2(0, -1);
+            if(time > 2f) {
+                moveInput = Vector2.zero;
+                if(time > 2.5f) {
+                    animName = "";
+                    isAnimation = false;
+                }
+            }
+        }
+
         Vector3 force = new Vector3(moveInput.x, moveInput.y, 0f) * moveForce;
         rb.AddForce(force * stats.speed);
 
@@ -64,11 +106,17 @@ public class SubmarineController : MonoBehaviour
         {
             rb.linearVelocity = (rb.linearVelocity.normalized * maxSpeed)*stats.speed;
         }
+
+        bool isMoving = moveInput.magnitude > 0.1f;
+        Debug.Log($"isMoving: {isMoving}");
+        var emission = bubbleEffect.emission;
+        emission.enabled = isMoving;
     }
 
 
     private void Update()
     {
+        time += Time.deltaTime;
         RotateSubmarine();
         if (!isBeingExtracted) // ← se estiver usando a extração
         {

@@ -51,6 +51,10 @@ public class CellUnity : MonoBehaviour {
             transform.Find("Tunnel").gameObject.SetActive(true);
         }
 
+        if(cell != null && cell.isStart) {
+            transform.Find("CaveStart").gameObject.SetActive(true);
+        }
+
         this.ActivateWalls();
         if (this.spawnType != SpawnType.NONE) {
             this.Spawn();

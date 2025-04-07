@@ -14,7 +14,7 @@ public class CaveEntranceTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isTriggered) return;
+        if (isTriggered || !gameObject.activeSelf) return;
 
         if (other.CompareTag("Player"))
         {
