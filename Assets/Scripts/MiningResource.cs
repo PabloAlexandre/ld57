@@ -4,7 +4,7 @@ using UnityEngine;
 public class MiningResource : MonoBehaviour
 {
     public float goldValue = 1f;
-    public AudioClip destroySound; // ← novo campo
+    public AudioClip destroySound;
 
     private bool isBeingDestroyed = false;
 
@@ -34,12 +34,26 @@ public class MiningResource : MonoBehaviour
         }
 
         transform.localScale = growScale;
-        
-        // 🔊 Toca som no ponto antes de destruir
+
+        // 🔊 Toca som com volume mais alto
         if (destroySound != null)
         {
-            //AudioSource.PlayClipAtPoint(destroySound, transform.position);
+            GameObject tempGO = new GameObject("BreakSound");
+            tempGO.transform.position = transform.position;
+
+            AudioSource src = tempGO.AddComponent<AudioSource>();
+            src.clip = destroySound;
+            src.volume = 10f;
+            src.spatialBlend = 0f; // 2D, toca forte em qualquer lugar
+            src.bypassEffects = true;
+            src.bypassListenerEffects = true;
+            src.bypassReverbZones = true;
+            src.Play();
+
+            Destroy(tempGO, destroySound.length);
+
         }
+
         // Encolhe
         t = 0f;
         while (t < shrinkDuration)
@@ -49,10 +63,7 @@ public class MiningResource : MonoBehaviour
             yield return null;
         }
 
-
-
         transform.localScale = Vector3.zero;
-
 
         Destroy(gameObject);
     }

@@ -1,15 +1,41 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SubmarineMining : MonoBehaviour
 {
     public SubmarineStats stats;
-    public Slider miningSlider; // ← UI Slider na cena
-    private Coroutine miningCoroutine;
+    public Slider miningSlider;
     public AudioSource audioSource;
     public AudioClip miningClip;
 
+    [Header("Input System")]
+    public InputActionReference mineAction;
+
+    private MiningResource currentTarget;
+    private float miningTimer;
+    private bool isMining = false;
+    private bool isHoldingMine = false;
+
+    [Header("Drill Rotation")]
+    public Transform drillMesh;
+    public float drillRotationSpeed = 360f; // graus por segundo
+
+    private void OnEnable()
+    {
+        if (mineAction != null)
+        {
+            mineAction.action.started += ctx => isHoldingMine = true;
+            mineAction.action.canceled += ctx => isHoldingMine = false;
+            mineAction.action.Enable();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (mineAction != null)
+            mineAction.action.Disable();
+    }
 
     private void Start()
     {
@@ -22,33 +48,69 @@ public class SubmarineMining : MonoBehaviour
 
     private void Update()
     {
+        FindClosestMiningResource();
+
+        if (currentTarget != null && isHoldingMine)
+        {
+            if (!isMining)
+                StartMiningFeedback();
+
+            miningTimer += Time.deltaTime;
+
+            if (miningSlider != null)
+                miningSlider.value = miningTimer;
+
+            if (miningTimer >= stats.miningSpeed)
+                CompleteMining();
+        }
+        else if (isMining)
+        {
+            StopMiningFeedback();
+        }
+
+        // Roda a broca enquanto estiver minerando
+        if (drillMesh != null && isHoldingMine)
+        {
+            drillMesh.Rotate(Vector3.forward, drillRotationSpeed * Time.deltaTime);
+        }
+    }
+
+    void FindClosestMiningResource()
+    {
         Collider[] hits = Physics.OverlapSphere(transform.position, stats.miningDistance);
+        MiningResource closest = null;
+        float closestDist = Mathf.Infinity;
 
         foreach (Collider hit in hits)
         {
             MiningResource resource = hit.GetComponent<MiningResource>();
             if (resource != null)
             {
-                if (miningCoroutine == null)
+                float dist = Vector3.Distance(transform.position, resource.transform.position);
+                if (dist < closestDist)
                 {
-                    Debug.Log($"🛠️ Iniciando mineração em: {resource.name}");
-                    miningCoroutine = StartCoroutine(MineResource(resource));
-                    break;
+                    closest = resource;
+                    closestDist = dist;
                 }
             }
         }
-    }
 
-    private IEnumerator MineResource(MiningResource resource)
-    {
-        float timer = 0f;
+        currentTarget = closest;
 
         if (miningSlider != null)
         {
-            miningSlider.gameObject.SetActive(true);
+            miningSlider.gameObject.SetActive(currentTarget != null);
             miningSlider.maxValue = stats.miningSpeed;
-            miningSlider.value = 0f;
         }
+    }
+
+    void StartMiningFeedback()
+    {
+        isMining = true;
+        miningTimer = 0f;
+
+        if (miningSlider != null)
+            miningSlider.value = 0f;
 
         if (audioSource != null && miningClip != null)
         {
@@ -57,38 +119,34 @@ public class SubmarineMining : MonoBehaviour
             audioSource.Play();
         }
 
-        while (timer < stats.miningSpeed)
-        {
-            if (resource == null || Vector3.Distance(transform.position, resource.transform.position) > stats.miningDistance)
-            {
-                Debug.Log("❌ Mineração cancelada.");
+        Debug.Log($"⛏️ Começou mineração em {currentTarget.name}");
+    }
 
-                if (audioSource != null && audioSource.isPlaying)
-                    audioSource.Stop();
+    void StopMiningFeedback()
+    {
+        isMining = false;
+        miningTimer = 0f;
 
-                if (miningSlider != null)
-                    miningSlider.gameObject.SetActive(false);
-
-                miningCoroutine = null;
-                yield break;
-            }
-
-            timer += Time.deltaTime;
-            if (miningSlider != null) miningSlider.value = timer;
-
-            yield return null;
-        }
-
-        stats.gold += resource.goldValue;
-        resource.ShrinkAndDestroy();
+        if (miningSlider != null)
+            miningSlider.value = 0f;
 
         if (audioSource != null && audioSource.isPlaying)
             audioSource.Stop();
 
-        if (miningSlider != null)
-            miningSlider.gameObject.SetActive(false);
-
-        miningCoroutine = null;
+        Debug.Log("⛔ Mineração pausada.");
     }
 
+    void CompleteMining()
+    {
+        Debug.Log($"✅ Mineração completa! +{currentTarget.goldValue} gold");
+
+        stats.gold += currentTarget.goldValue;
+        currentTarget.ShrinkAndDestroy();
+
+        StopMiningFeedback();
+        currentTarget = null;
+
+        if (miningSlider != null)
+            miningSlider.gameObject.SetActive(false);
+    }
 }

@@ -15,6 +15,6 @@ MonoBehaviour:
   speed: 5
   maxDepth: -30
   miningSpeed: 3
-  miningDistance: 5
-  gold: 135
+  miningDistance: 2
+  gold: 172
   lightDistance: 20
