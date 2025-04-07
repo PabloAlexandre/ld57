@@ -396,7 +396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2442514121322548018, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -43.25
+      value: 30.48
       objectReference: {fileID: 0}
     - target: {fileID: 2442514121322548018, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -447,28 +447,36 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.94847924
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.12955557
       objectReference: {fileID: 0}
     - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0.5455001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.065481484
       objectReference: {fileID: 0}
     - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 693.5717
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -361.2859
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7435530470947690782, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 48.100006
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8413010208273452525, guid: 498c1a331f554aa46a7f1790b6c4e33a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -607,11 +615,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   submarine: {fileID: 0}
-  levels: 5
   cacheKey: storage
   deleteOnStart: 0
   isScene: 0
   currentLevel: 0
+  numberOfFishs: 0
+  percentageOfSpawnsInPath: 0
 --- !u!1001 &1436759249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1443,6 +1452,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1012204234316605066, guid: 1635780bcae93a840a65c29a39e73b1d, type: 3}
+      propertyPath: levelIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1901268190079608654, guid: 1635780bcae93a840a65c29a39e73b1d, type: 3}
+      propertyPath: levelIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2416102838997110077, guid: 1635780bcae93a840a65c29a39e73b1d, type: 3}
+      propertyPath: levelIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6525964689224906159, guid: 1635780bcae93a840a65c29a39e73b1d, type: 3}
       propertyPath: m_Name
       value: OceanScene
@@ -1486,6 +1507,14 @@ PrefabInstance:
     - target: {fileID: 7230746660750518768, guid: 1635780bcae93a840a65c29a39e73b1d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125618954207343430, guid: 1635780bcae93a840a65c29a39e73b1d, type: 3}
+      propertyPath: levelIndex
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181942971811630872, guid: 1635780bcae93a840a65c29a39e73b1d, type: 3}
+      propertyPath: levelIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

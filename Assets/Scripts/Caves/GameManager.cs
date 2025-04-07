@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class GameManager: MonoBehaviour {
     public Transform submarine;
-    public int levels = 1;
     public string cacheKey;
     public bool deleteOnStart = false;
     public bool isScene = false;
@@ -16,7 +15,10 @@ public class GameManager: MonoBehaviour {
             PlayerPrefs.DeleteAll();
         }
 
-        if(isScene) {
+        this.cacheKey = Constants.CACHE_KEY;
+
+
+        if (isScene) {
             this.currentLevel = PlayerPrefs.GetInt("desired_level", 0);
         }
     }
@@ -24,7 +26,7 @@ public class GameManager: MonoBehaviour {
     public void CreateGame() {
         PlayerPrefs.DeleteAll();
 
-        for (int i = 0; i < levels; i++) {
+        for (int i = 0; i < Constants.CAVE_GENERATION_DEFS.Length; i++) {
             if (PlayerPrefs.GetInt($"{cacheKey}_level_{i}") == 1) {
                 continue;
             }
@@ -71,15 +73,18 @@ public class GameManager: MonoBehaviour {
             return;
         }
 
+        CavePredefinition def = Constants.CAVE_GENERATION_DEFS[level];
         CaveConditions conditions = new CaveConditions() {
-            minSteps = 9,
-            minHiddenSpots = 3,
+            minSteps = def.minSteps,
+            minHiddenSpots = def.minHiddenSpots,
         };
 
-        CaveGenerator cave = new CaveGenerator(4, 1, new CaveOptions() {
+        CaveGenerator cave = new CaveGenerator(def.gridSize, 1, new CaveOptions() {
             conditions = conditions,
-            numberOfFishs = numberOfFishs,
-            percentageOfSpawnsInPath = percentageOfSpawnsInPath,
+            numberOfFishs = def.numberOfFishs,
+            percentageOfSpawnsInPath = def.percentageOfSpawnsInPath,
+            startCell = def.startCell,
+            endCell = def.endCell,
         });
 
         var mazeSolved = cave.GenerateCaves();

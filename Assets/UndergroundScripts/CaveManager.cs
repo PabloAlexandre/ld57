@@ -63,8 +63,14 @@ public class CaveManager : MonoBehaviour {
             }
         }
 
+        CavePredefinition def = currentLevel.Value.level >= 0 ? Constants.CAVE_GENERATION_DEFS[currentLevel.Value.level] : null;
+        if(def != null) {
+            this.Interval = def.interval;
+            this.GridSize = def.gridSize;
+        }
 
-         CaveCell[][] map = currentLevel.Value.cells;
+
+        CaveCell[][] map = currentLevel.Value.cells;
         this.mazeSolved = currentLevel.Value.solvedPath;
         Debug.Log($"Maze solved: {this.mazeSolved.Length}");
 

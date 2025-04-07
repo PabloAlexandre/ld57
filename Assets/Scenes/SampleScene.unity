@@ -1495,15 +1495,15 @@ MonoBehaviour:
   Interval: 1
   mazeSolved: []
   cellSize: {x: 70, y: 0, z: 70}
-  minSteps: 15
+  minSteps: 9
   numberOfSpawnPoints: 5
-  minHiddenSpots: 16
+  minHiddenSpots: 5
   manager: {fileID: 0}
   debug: 0
-  numberOfFishs: 5
-  percentageOfSpawnsInPath: 0.6
+  numberOfFishs: 3
+  percentageOfSpawnsInPath: 0.7
   startCell: {x: 0, y: 0}
-  endCell: {x: 4, y: 6}
+  endCell: {x: 0, y: 3}
 --- !u!114 &1190217903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1546,7 +1546,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   submarine: {fileID: 441314592}
-  levels: 1
   cacheKey: test-game
   deleteOnStart: 0
   isScene: 1

@@ -83,7 +83,7 @@ public class CaveGenerator {
         }
         
 
-        if (count < 10) {
+        if (count < 20) {
             Debug.LogWarning($"Cave not solved: Trying again {count + 1}/10");
             return this.GenerateCaves(count + 1);
         } 
@@ -105,7 +105,6 @@ public class CaveGenerator {
         // shuffle points
         relevantPoints = this.randomizeArray(relevantPoints);
 
-        Debug.Log($"Relevant points: {relevantPoints.Length} - percentage : {Mathf.FloorToInt(this.options.percentageOfSpawnsInPath * relevantPoints.Length)}");
         // add spawn points
         int spawnItems = Mathf.FloorToInt(this.options.percentageOfSpawnsInPath * relevantPoints.Length);
         for (int i = 0; i < spawnItems; i++) {
