@@ -7,7 +7,13 @@ public class MiningResource : MonoBehaviour
     public AudioClip destroySound;
 
     private bool isBeingDestroyed = false;
+    public bool persist = false;
 
+    private void Awake() {
+        if(persist && PlayerPrefs.GetInt(transform.name+"_destroyed", 0) == 1) {
+            Destroy(gameObject);
+        }
+    }
     public void ShrinkAndDestroy()
     {
         if (!isBeingDestroyed)
@@ -64,6 +70,13 @@ public class MiningResource : MonoBehaviour
         }
 
         transform.localScale = Vector3.zero;
+        if(persist) {
+            PlayerPrefs.SetInt(transform.name+ "_destroyed", 1);
+        }
+
+        if(GetComponent<CollectResource>() != null) {
+            GetComponent<CollectResource>().OnCollect();
+        }
 
         Destroy(gameObject);
     }

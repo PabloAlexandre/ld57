@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,6 +18,9 @@ public class CellUnity : MonoBehaviour {
 
     public Transform miningPrefab;
     public Transform fishPrefab;
+
+    private GameManager manager;
+
     void Start() {
 
     }
@@ -42,6 +47,7 @@ public class CellUnity : MonoBehaviour {
         this.type = type;
         this.isIntermediare = isIntermediare;
         this.cell = cell;
+        this.manager = FindFirstObjectByType<GameManager>();
 
         if (type == CellType.STONE) {
             transform.Find("Wall-Back").gameObject.SetActive(false);
@@ -62,7 +68,7 @@ public class CellUnity : MonoBehaviour {
     }
 
     void ActivateWalls() {
-        float y = Random.Range(95.0f, 110.0f);
+        float y = UnityEngine.Random.Range(95.0f, 110.0f);
         Transform backStone = transform.Find("Wall-Back");
         Quaternion rotation = Quaternion.Euler(new Vector3(-91, y, -12));
         transform.Find("Wall-Back").transform.localRotation = rotation;
@@ -79,19 +85,46 @@ public class CellUnity : MonoBehaviour {
     void Spawn() {
         Transform prefab = this.miningPrefab;
         Vector3[] spawnPoints = new Vector3[0];
+        string key = $"{cell.x}_{cell.y}_{manager.currentLevel}_spawn_points";
+        bool hasKey = PlayerPrefs.HasKey(key);
+
+        if (PlayerPrefs.HasKey(key)) {
+            spawnPoints = JsonUtility.FromJson<SpawnPoint>(PlayerPrefs.GetString(key)).coords;
+        }
 
         if (this.spawnType == SpawnType.BLUE_ITEM) {
             prefab = this.miningPrefab;
-            spawnPoints = getSpawnPoint("MiningSpawnPoints", 3);
+            if(!hasKey) {
+                spawnPoints = getSpawnPoint("MiningSpawnPoints", 3);
+                SpawnPoint point = new SpawnPoint() {
+                    coords = spawnPoints
+                };
+
+                PlayerPrefs.SetString(key, JsonUtility.ToJson(point));
+            }
         } else if (this.spawnType == SpawnType.RED_ITEM) {
+            if(PlayerPrefs.HasKey($"{cell.x}_{cell.y}_{manager.currentLevel}_fish")) {
+                return;
+            }
+
             prefab = this.fishPrefab;
-            spawnPoints = getSpawnPoint("FishSpawnPoints", 1);
+            
+            if (!hasKey) {
+                spawnPoints = getSpawnPoint("FishSpawnPoints", 1);
+                SpawnPoint point = new SpawnPoint() {
+                    coords = spawnPoints
+                };
+                PlayerPrefs.SetString(key, JsonUtility.ToJson(point));
+            }
         }
 
+        
         for (int i = 0; i < spawnPoints.Length; i++) {
-            Instantiate(prefab, spawnPoints[i], Quaternion.identity);
+            Transform t = Instantiate(prefab, spawnPoints[i], Quaternion.identity);
+            t.AddComponent<CollectResource>().Init(this.cell.x, this.cell.y, manager.currentLevel, i);
         }
     }
+
 
     Vector3[] getSpawnPoint(string type, int count) {
         var random = new System.Random();
@@ -129,6 +162,11 @@ public class CellUnity : MonoBehaviour {
         }
     }
 
+}
+
+[Serializable]
+public class SpawnPoint {
+    public Vector3[] coords;
 }
 
 public enum CellType {

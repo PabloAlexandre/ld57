@@ -5,8 +5,19 @@ public class GameManager: MonoBehaviour {
     public Transform submarine;
     public int levels = 1;
     public string cacheKey;
+    public bool deleteOnStart = false;
+    public bool isScene = false;
+    public int currentLevel = 0;
 
     void Awake() {
+        if (deleteOnStart) {
+            PlayerPrefs.DeleteAll();
+        }
+
+        if(isScene) {
+            this.currentLevel = PlayerPrefs.GetInt("desired_level", 0);
+        }
+        
         for(int i = 0; i < levels; i++) {
             if(PlayerPrefs.GetInt($"{cacheKey}_level_{i}") == 1) {
                 continue;

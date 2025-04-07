@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class CaveCell {
@@ -8,6 +9,7 @@ public class CaveCell {
     public SpawnType spawnType = SpawnType.NONE;
     public bool isStart = false;
     public bool isEnd = false;
+    public Vector3[] spawnPoints = null;
 
     // 0 = up, 1 = right, 2 = down, 3 = left
     public bool[] walls = new bool[4] {

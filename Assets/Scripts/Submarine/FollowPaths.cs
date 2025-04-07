@@ -38,15 +38,16 @@ public class FollowPaths : MonoBehaviour {
 
         if (currentIndex >= pathPoints.Length) {
             submarineController.moveInput = Vector2.zero;
-            submarineController.submarineLight.gameObject.SetActive(false);
+            //submarineController.submarineLight.gameObject.SetActive(false);
             //SceneManager.LoadScene(sceneName);
             FindFirstObjectByType<SubmarineHUD>().PlayFadeOut();
             FindAnyObjectByType<GameManager>().ResetPlayer();
+            PlayerPrefs.SetInt("desired_level", levelIndex);
 
             Timeout(() => {
                 SceneManager.LoadScene(sceneName);
                 Debug.Log("Loading scene: " + sceneName);
-            }, 1.5f);
+            }, 1.3f);
             return;
         }
 
@@ -62,6 +63,8 @@ public class FollowPaths : MonoBehaviour {
         Vector2 delta = newPosition - previousPosition;
         submarineController.moveInput = dirVector.normalized * speed;
         previousPosition = newPosition;
+
+        submarineController.transform.LookAt(new Vector3(targetPosition.x, submarineController.transform.position.y, targetPosition.y));
 
         // Check if target reached
         if (Vector2.Distance(newPosition, targetPosition) < reachThreshold) {

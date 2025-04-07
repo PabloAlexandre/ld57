@@ -17,7 +17,6 @@ public class CaveManager : MonoBehaviour {
     public int minHiddenSpots = 3;
 
     public GameManager manager;
-    public int level = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
@@ -29,10 +28,10 @@ public class CaveManager : MonoBehaviour {
         //this.mazeSolved = cave.GenerateCaves();
 
         manager = GetComponent<GameManager>();
-        LevelGame? currentLevel = manager.LoadLevel(level);
+        LevelGame? currentLevel = manager.LoadLevel(manager.currentLevel);
 
         if(currentLevel == null) {
-            Debug.LogError($"Level {level} not found");
+            Debug.LogError($"Level {manager.currentLevel} not found");
             return;
         }
 

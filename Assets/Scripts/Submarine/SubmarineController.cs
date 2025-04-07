@@ -36,10 +36,23 @@ public class SubmarineController : MonoBehaviour
 
     private void Start()
     {
-        if(SceneManager.GetActiveScene().name == "SampleScene" && !FindFirstObjectByType<GameManager>().IsBackFromUpgrade()) {
+        if((SceneManager.GetActiveScene().name == "SampleScene" || SceneManager.GetActiveScene().name == "TutoDemo") && !FindFirstObjectByType<GameManager>().IsBackFromUpgrade()) {
             animName = "StartAnimation";
             StartCoroutine(StartAnimation());
             isAnimation = true;
+        }
+
+        GameManager manager = FindFirstObjectByType<GameManager>();
+        if (PlayerPrefs.HasKey($"{manager.currentLevel}_fishs") && SceneManager.GetActiveScene().name == "SampleScene") {
+            int count = PlayerPrefs.GetInt($"{manager.currentLevel}_fishs", 0);
+            Debug.Log(count);
+            Transform fishes = this.transform.parent.Find("FollowFishes");
+            if(fishes != null) {
+                fishes.position = transform.position + new Vector3(0, 0, -1f);
+                for (int i = 0; i < Mathf.Min(count, 3); i++) {
+                    fishes.GetChild(i).gameObject.SetActive(true);
+                }
+            }
         }
        
 
@@ -174,6 +187,14 @@ public class SubmarineController : MonoBehaviour
     {
         if (context.performed && !isBeingExtracted)
         {
+            if(SceneManager.GetActiveScene().name == "TutoDemo") {
+                if (PlayerPrefs.GetInt("no_tutorial", 0) == 0) {
+                    PlayerPrefs.SetInt("tutorial", 1);
+                }
+            }
+        
+            PlayerPrefs.SetString("last_scene", SceneManager.GetActiveScene().name);
+
             FindFirstObjectByType<GameManager>().SavePosition();
             FindAnyObjectByType<SubmarineHUD>().PlayFadeOut();
             StartCoroutine(ExtractAndLoadUpgradeScene());

@@ -114,6 +114,9 @@ public class FishFollow : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player")) {
             canFollow = true;
+            if(GetComponent<CollectResource>() != null) {
+                GetComponent<CollectResource>().OnCollectFish();
+            }
         }
     }
 }

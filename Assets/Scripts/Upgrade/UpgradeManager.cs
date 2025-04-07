@@ -30,10 +30,17 @@ public class UpgradeManager : MonoBehaviour
     public float lightDistanceUpgradeAmount = 5f;
     public float maxDepthUpgradeAmount = -10f; // mais negativo = mais profundo
 
-    public string sceneName;
+    public Button[] noMainBtns;
 
     private void Start()
     {
+        if(PlayerPrefs.GetInt("tutorial", 0) == 1) {
+            for (int i = 0; i < noMainBtns.Length; i++) {
+                noMainBtns[i].interactable = false;
+                noMainBtns[i].transform.parent.GetComponent<CanvasGroup>().alpha = 0.15f;
+            }
+        }
+
         UpdateUI();
     }
 
@@ -106,6 +113,15 @@ public class UpgradeManager : MonoBehaviour
 
     public void ReturnToGameScene()
     {
-        SceneManager.LoadScene(sceneName != null  ? sceneName : "SampleScene");
+        string sceneName = PlayerPrefs.GetString("last_scene", "OceanScene");
+        
+        if(sceneName == "TutoDemo") {
+            PlayerPrefs.SetInt("tutorial", 0);
+            PlayerPrefs.SetInt("no_tutorial", 1);
+        }
+
+        PlayerPrefs.SetString("last_scene", SceneManager.GetActiveScene().name);
+
+        SceneManager.LoadScene(sceneName);
     }
 }
