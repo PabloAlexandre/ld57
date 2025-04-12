@@ -9,9 +9,16 @@ public class MiningResource : MonoBehaviour
     private bool isBeingDestroyed = false;
     public bool persist = false;
 
+    public Vector2 minMaxGold = new Vector2(3, 8);
+
     private void Awake() {
         if(persist && PlayerPrefs.GetInt(transform.name+"_destroyed", 0) == 1) {
             Destroy(gameObject);
+        }
+
+        if(Vector2.zero != minMaxGold) {
+            goldValue = Mathf.Floor(Random.Range(minMaxGold.x, minMaxGold.y));
+            transform.localScale *= (goldValue / 3f);
         }
     }
     public void ShrinkAndDestroy()

@@ -95,7 +95,7 @@ public class CellUnity : MonoBehaviour {
         if (this.spawnType == SpawnType.BLUE_ITEM) {
             prefab = this.miningPrefab;
             if(!hasKey) {
-                spawnPoints = getSpawnPoint("MiningSpawnPoints", 3);
+                spawnPoints = getSpawnPoint("MiningSpawnPoints", 5);
                 SpawnPoint point = new SpawnPoint() {
                     coords = spawnPoints
                 };
@@ -125,6 +125,17 @@ public class CellUnity : MonoBehaviour {
             }
             Transform t = Instantiate(prefab, spawnPoints[i], Quaternion.identity);
             t.AddComponent<CollectResource>().Init(this.cell.x, this.cell.y, manager.currentLevel, i);
+
+            if(prefab == this.fishPrefab) {
+                Transform bonusContainer = t.Find("Bonus");
+                bonusContainer.gameObject.SetActive(true);
+
+                int index = 0;
+                foreach(Transform child in bonusContainer) {
+                    child.transform.name = $"{cell.x}_{cell.y}_{manager.currentLevel}_fish_special_{index}";
+                    index++;
+                }
+            }
         }
     }
 
@@ -143,27 +154,27 @@ public class CellUnity : MonoBehaviour {
 
     }
 
-    private void OnDrawGizmosSelected() {
-        if (this.owner != null && false) {
-            // Ray to the owner
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(this.owner.transform.position, 0.05f);
+    //private void OnDrawGizmosSelected() {
+    //    if (this.owner != null && false) {
+    //        // Ray to the owner
+    //        Gizmos.color = Color.blue;
+    //        Gizmos.DrawSphere(this.owner.transform.position, 0.05f);
 
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, 0.05f);
+    //        Gizmos.color = Color.red;
+    //        Gizmos.DrawSphere(transform.position, 0.05f);
 
-            Gizmos.color = Color.green;
+    //        Gizmos.color = Color.green;
 
-            var p1 = transform.position;
-            var p2 = this.owner.transform.position;
-            var thickness = 3;
-            Handles.DrawBezier(p1, p2, p1, p2, Color.red, null, thickness);
+    //        var p1 = transform.position;
+    //        var p2 = this.owner.transform.position;
+    //        var thickness = 3;
+    //        Handles.DrawBezier(p1, p2, p1, p2, Color.red, null, thickness);
 
-        }
-        if(this.owner) {
+    //    }
+    //    if(this.owner) {
 
-        }
-    }
+    //    }
+    //}
 
 }
 

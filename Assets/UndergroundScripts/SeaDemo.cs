@@ -35,6 +35,9 @@ public class SeaDemo : MonoBehaviour {
     public Color minFilter = new Color(0, 94, 142);
     public Color maxFilter = new Color(93, 178, 221);
     public int depthChange = 100;
+
+    public AudioSource audioSource;
+
     void Start() {
         if (globalVolume == null) {
             Debug.LogError("Global Volume not assigned.");
@@ -55,9 +58,17 @@ public class SeaDemo : MonoBehaviour {
             enabled = false;
         }
 
-        if(submarine) {
+        if (audioSource != null) {
+            int max = 600;
+            float percent = -submarine.position.y / max;
+            float pitch = Mathf.Lerp(3, 1, Mathf.Max(0, Mathf.Min(1, percent)));
+            audioSource.pitch = pitch;
+        }
+
+            if (submarine) {
             UpdateFog();
         }
+
     }
 
     void Update() {
@@ -84,6 +95,13 @@ public class SeaDemo : MonoBehaviour {
         RenderSettings.fogDensity = Mathf.Lerp(RenderSettings.fogDensity, currentTargetFog, Time.deltaTime * 0.5f);
         colorAdjustments.colorFilter.value = Color.Lerp(colorAdjustments.colorFilter.value, Color.Lerp(minFilter, maxFilter, (-submarine.position.y / depthChange)), 0.5f * Time.deltaTime);
         colorAdjustments.colorFilter.overrideState = true;
+
+        if (audioSource != null) {
+            int max = 1200;
+            float percent = -submarine.position.y/max;
+            float pitch = Mathf.Lerp(3, 1, Mathf.Max(0, Mathf.Min(1,percent)));
+            audioSource.pitch = Mathf.Lerp(audioSource.pitch, pitch, Time.deltaTime * 0.5f);
+        }
     }
 
     Color HDRColor(Color c, float intensity) {

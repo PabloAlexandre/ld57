@@ -68,6 +68,8 @@ public class Constants {
         }
     };
 
+
+
 }
 
 
@@ -80,4 +82,13 @@ public class CavePredefinition {
     public float percentageOfSpawnsInPath;
     public Vector2 startCell;
     public Vector2 endCell;
+}
+
+public class BaseAttributes {
+    public float speed = 3;
+    public float maxDepth = -80;
+    public float miningSpeed = 3;
+    public float miningDistance = 2;
+    public float gold = 5;
+    public float lightDistance = 30;
 }

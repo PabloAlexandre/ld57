@@ -28,6 +28,7 @@ public class SubmarineController : MonoBehaviour
     public ParticleSystem bubbleEffect;
     public string animName;
     private float time;
+    public AudioSource clip;
 
     private void Awake()
     {
@@ -122,6 +123,13 @@ public class SubmarineController : MonoBehaviour
 
         bool isMoving = moveInput.magnitude > 0.1f;
         var emission = bubbleEffect.emission;
+
+        if (isMoving && !clip.isPlaying) {
+            clip.Play();
+        } else if (!isMoving && clip.isPlaying) {
+            clip.Stop();
+        }
+
         emission.enabled = isMoving;
     }
 

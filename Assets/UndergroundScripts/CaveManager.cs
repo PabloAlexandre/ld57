@@ -131,46 +131,46 @@ public class CaveManager : MonoBehaviour {
 
     }
 
-    private void OnDrawGizmosSelected() {
-        if (this.mazeSolved == null || this.nodes == null) return;
-        for (int i = 0; i < this.mazeSolved.Length - 1; i++) {
-            int next = i + 1;
+    //private void OnDrawGizmosSelected() {
+    //    if (this.mazeSolved == null || this.nodes == null) return;
+    //    for (int i = 0; i < this.mazeSolved.Length - 1; i++) {
+    //        int next = i + 1;
 
-            CaveCell current = this.mazeSolved[i];
-            CaveCell nextCell = this.mazeSolved[next];
+    //        CaveCell current = this.mazeSolved[i];
+    //        CaveCell nextCell = this.mazeSolved[next];
 
-            Vector3 start = this.nodes[current.x][current.y].transform.position;
-            Vector3 end = this.nodes[nextCell.x][nextCell.y].transform.position;
-            float thickness = 3;
+    //        Vector3 start = this.nodes[current.x][current.y].transform.position;
+    //        Vector3 end = this.nodes[nextCell.x][nextCell.y].transform.position;
+    //        float thickness = 3;
 
-            Handles.DrawBezier(start, end, start, end, Color.green, null, thickness);
+    //        Handles.DrawBezier(start, end, start, end, Color.green, null, thickness);
 
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(start, 5.25f);
-        }
+    //        Gizmos.color = Color.green;
+    //        Gizmos.DrawSphere(start, 5.25f);
+    //    }
 
 
 
-        for(int x = 0; x < GridSize; x++) {
-            for (int y = 0; y < GridSize; y++) {
-                if (this.nodes[x][y].spawnType != SpawnType.NONE) {
-                    Vector3 center = this.nodes[x][y].transform.position;
+    //    for(int x = 0; x < GridSize; x++) {
+    //        for (int y = 0; y < GridSize; y++) {
+    //            if (this.nodes[x][y].spawnType != SpawnType.NONE) {
+    //                Vector3 center = this.nodes[x][y].transform.position;
 
-                    switch(this.nodes[x][y].spawnType) {
-                        case SpawnType.BLUE_ITEM:
-                            Gizmos.color = Color.blue;
-                            break;
-                        case SpawnType.RED_ITEM:
-                            Gizmos.color = Color.red;
-                            break;
-                        default:
-                            Gizmos.color = Color.yellow;
-                            break;
-                    }
-                    Gizmos.DrawSphere(center, 8.25f);
+    //                switch(this.nodes[x][y].spawnType) {
+    //                    case SpawnType.BLUE_ITEM:
+    //                        Gizmos.color = Color.blue;
+    //                        break;
+    //                    case SpawnType.RED_ITEM:
+    //                        Gizmos.color = Color.red;
+    //                        break;
+    //                    default:
+    //                        Gizmos.color = Color.yellow;
+    //                        break;
+    //                }
+    //                Gizmos.DrawSphere(center, 8.25f);
 
-                }
-            }
-        }
-    }
+    //            }
+    //        }
+    //    }
+    //}
 }

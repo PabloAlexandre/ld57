@@ -483,6 +483,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldValue: 1
   destroySound: {fileID: 8300000, guid: 4dc9cc7eaab427f459ba98307bcc5a68, type: 3}
+  persist: 0
+  minMaxGold: {x: 2, y: 8}
 --- !u!135 &5167609206335705726
 SphereCollider:
   m_ObjectHideFlags: 0

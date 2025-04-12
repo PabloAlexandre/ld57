@@ -104,11 +104,11 @@ public class UpgradeManager : MonoBehaviour
     private void UpdateUI()
     {
         goldText.text = $"Gold: {stats.gold}";
-        speedText.text = $"Speed: {stats.speed:F1}";
-        miningSpeedText.text = $"Mining Speed: {stats.miningSpeed:F1}s";
-        miningDistanceText.text = $"Mining Range: {stats.miningDistance}";
-        lightDistanceText.text = $"Light Range: {stats.lightDistance}";
-        maxDepthText.text = $"Max Depth: {stats.maxDepth}";
+        speedText.text = $"Speed: {stats.speed:F1} | ${speedUpgradeCost}";
+        miningSpeedText.text = $"Mining Speed: {stats.miningSpeed:F1}s | ${miningSpeedUpgradeCost}";
+        miningDistanceText.text = $"Mining Range: {stats.miningDistance} | ${miningDistanceUpgradeCost}";
+        lightDistanceText.text = $"Light Range: {stats.lightDistance} | ${lightDistanceUpgradeCost}";
+        maxDepthText.text = $"Max Depth: {stats.maxDepth} | ${maxDepthUpgradeCost}";
     }
 
     public void ReturnToGameScene()

@@ -9,6 +9,7 @@ public class GameManager: MonoBehaviour {
     public int currentLevel = 0;
     public int numberOfFishs;
     public float percentageOfSpawnsInPath;
+    public ScriptableObject obj;
 
     void Awake() {
         if (deleteOnStart) {
@@ -21,10 +22,20 @@ public class GameManager: MonoBehaviour {
         if (isScene) {
             this.currentLevel = PlayerPrefs.GetInt("desired_level", 0);
         }
+
+
+    }
+
+    private void Start() {
+        if (!submarine && GameObject.FindGameObjectWithTag("Player")) {
+            submarine = GameObject.FindGameObjectWithTag("Player").transform;
+        }
     }
 
     public void CreateGame() {
         PlayerPrefs.DeleteAll();
+
+
 
         for (int i = 0; i < Constants.CAVE_GENERATION_DEFS.Length; i++) {
             if (PlayerPrefs.GetInt($"{cacheKey}_level_{i}") == 1) {

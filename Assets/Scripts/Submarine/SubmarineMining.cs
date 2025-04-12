@@ -72,6 +72,13 @@ public class SubmarineMining : MonoBehaviour
         if (drillMesh != null && isHoldingMine)
         {
             drillMesh.Rotate(Vector3.forward, drillRotationSpeed * Time.deltaTime);
+            if(audioSource != null && !audioSource.isPlaying) {
+                audioSource.clip = miningClip;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        } else if(drillMesh != null && audioSource != null && audioSource.isPlaying) {
+            audioSource.Stop();
         }
     }
 
